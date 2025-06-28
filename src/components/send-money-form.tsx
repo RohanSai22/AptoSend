@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -13,19 +14,27 @@ import { Input } from '@/components/ui/input';
 import { RiskAssessmentDialog } from './risk-assessment-dialog';
 import type { TransactionRiskAssessmentOutput } from '@/ai/flows/transaction-risk-assessment';
 import { useToast } from '@/hooks/use-toast';
+import { Transaction } from './transaction-history';
 
 const SendMoneySchema = z.object({
   amount: z.coerce.number().positive({ message: 'Please enter a valid amount.' }).min(1, { message: 'Amount must be at least $1.' }),
   recipient: z.string().min(10, { message: 'Please enter a valid phone number.' }),
 });
 
-export function SendMoneyForm() {
+type FormData = z.infer<typeof SendMoneySchema>;
+
+interface SendMoneyFormProps {
+  onTransactionComplete: (transaction: Omit<Transaction, 'id' | 'date'>) => void;
+}
+
+export function SendMoneyForm({ onTransactionComplete }: SendMoneyFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [assessment, setAssessment] = useState<TransactionRiskAssessmentOutput | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [confirmedTxData, setConfirmedTxData] = useState<FormData | null>(null);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof SendMoneySchema>>({
+  const form = useForm<FormData>({
     resolver: zodResolver(SendMoneySchema),
     defaultValues: {
       amount: 100,
@@ -37,9 +46,10 @@ export function SendMoneyForm() {
   const fee = amount ? (amount * 0.01).toFixed(2) : '0.00';
   const recipientGets = amount ? (amount - parseFloat(fee)).toFixed(2) : '0.00';
 
-  async function onSubmit(data: z.infer<typeof SendMoneySchema>) {
+  async function onSubmit(data: FormData) {
     setIsLoading(true);
     setAssessment(null);
+    setConfirmedTxData(data);
     
     const formData = new FormData();
     formData.append('amount', String(data.amount));
@@ -55,6 +65,7 @@ export function SendMoneyForm() {
         title: 'Error',
         description: result.error,
       });
+      setConfirmedTxData(null);
     } else {
       setAssessment(result);
       setIsDialogOpen(true);
@@ -62,9 +73,18 @@ export function SendMoneyForm() {
   }
 
   const handleConfirmTransaction = () => {
-    // Here you would typically call another action to finalize the transaction
+    if (assessment && confirmedTxData) {
+       onTransactionComplete({
+        type: 'sent',
+        recipient: confirmedTxData.recipient,
+        amount: `$${confirmedTxData.amount.toFixed(2)}`,
+        status: assessment.actionToTake === 'Approve' ? 'Completed' : 'In Review',
+        riskScore: assessment.riskScore,
+      });
+    }
     console.log("Transaction confirmed and executed.");
     form.reset();
+    setConfirmedTxData(null);
   };
 
   return (

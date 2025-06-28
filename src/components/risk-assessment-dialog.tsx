@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { TransactionRiskAssessmentOutput } from '@/ai/flows/transaction-risk-assessment';
@@ -12,7 +13,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
@@ -38,16 +39,14 @@ export function RiskAssessmentDialog({ assessment, open, onOpenChange, onConfirm
     onOpenChange(false);
     toast({
       title: "Transaction Sent!",
-      description: "Your money is on its way, settled on the Aptos blockchain.",
+      description: "Your money is on its way.",
     });
   };
   
-  const getRiskColor = (type: 'text' | 'bg' | 'border' = 'text') => {
-    const color = riskPercentage > 75 ? 'destructive' : riskPercentage > 40 ? 'yellow-500' : 'green-500';
-    if (type === 'text') return `text-${color}`;
-    if (type === 'bg') return `bg-${color}`;
-    if (type === 'border') return `border-${color}/50`;
-    return color;
+  const getRiskColor = () => {
+    if (riskPercentage > 75) return 'text-destructive';
+    if (riskPercentage > 40) return 'text-accent';
+    return 'text-green-500';
   };
   
   const getActionInfo = () => {
@@ -55,23 +54,25 @@ export function RiskAssessmentDialog({ assessment, open, onOpenChange, onConfirm
       case 'Approve':
         return {
           Icon: ShieldCheck,
-          className: 'border-green-500/50 text-green-500',
+          className: 'border-green-500 text-green-500',
         };
       case 'Review':
         return {
           Icon: ShieldQuestion,
-          className: 'border-yellow-500/50 text-yellow-500',
+          className: 'border-accent text-accent',
         };
       case 'Deny':
       default:
         return {
           Icon: ShieldAlert,
-          className: 'border-destructive/50 text-destructive',
+          className: 'border-destructive text-destructive',
         };
     }
   };
 
   const actionInfo = getActionInfo();
+  const progressColorClass = riskPercentage > 75 ? '[&>div]:bg-destructive' : riskPercentage > 40 ? '[&>div]:bg-accent' : '[&>div]:bg-green-500';
+
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
@@ -90,11 +91,11 @@ export function RiskAssessmentDialog({ assessment, open, onOpenChange, onConfirm
             <div className="space-y-2">
               <div className="flex justify-between items-baseline">
                 <span className="text-sm font-medium text-muted-foreground">Risk Score</span>
-                <span className={cn('font-bold text-xl', getRiskColor('text'))}>
+                <span className={cn('font-bold text-xl', getRiskColor())}>
                   {riskPercentage}%
                 </span>
               </div>
-              <Progress value={riskPercentage} className="h-3" />
+              <Progress value={riskPercentage} className={cn("h-3", progressColorClass)} />
             </div>
             <div className="space-y-1">
               <h4 className="text-sm font-medium text-muted-foreground">Recommendation</h4>
