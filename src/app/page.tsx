@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
   ShieldCheck,
@@ -10,26 +10,33 @@ import {
   Globe,
   Zap,
   Network,
-  Banknote,
-  Send,
-  MessageSquare,
-  ShieldHalf,
   Users,
+  ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { WalletCards } from 'lucide-react';
 import { GlobalAnomalyGraph } from '@/components/global-anomaly-graph';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
 
 export default function LandingPage() {
   const FADE_UP_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0, transition: { type: 'spring' } },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } },
   };
 
   return (
-    <div className="flex flex-col min-h-dvh bg-background text-foreground">
+    <div className="flex flex-col min-h-dvh bg-background text-foreground overflow-x-hidden">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 max-w-screen-2xl items-center mx-auto px-4">
           <Link href="/" className="mr-6 flex items-center space-x-2">
@@ -66,10 +73,11 @@ export default function LandingPage() {
               },
             },
           }}
-          className="relative py-28 md:py-40"
+          className="relative isolate"
         >
-          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(#e0f8f8_1px,transparent_1px)] dark:bg-[radial-gradient(#102c2c_1px,transparent_1px)] [background-size:16px_16px]"></div>
-          <div className="container text-center mx-auto px-4">
+         <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"><div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px]"></div></div>
+
+          <div className="container text-center mx-auto px-4 py-28 md:py-40">
             <motion.div
               variants={FADE_UP_ANIMATION_VARIANTS}
               className="bg-primary/10 inline-block p-3 rounded-full mb-6"
@@ -108,50 +116,9 @@ export default function LandingPage() {
           </div>
         </motion.section>
 
-        {/* Features Section */}
+        {/* Features Bento Grid */}
         <motion.section
           id="features"
-          className="py-20 md:py-24 bg-card/50"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.1 } },
-          }}
-        >
-          <div className="container mx-auto px-4">
-            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="text-center mb-16">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Why Choose AptoSend?
-              </h2>
-              <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-                We've built a platform that is secure, fast, and fair. Your
-                money, delivered with confidence.
-              </p>
-            </motion.div>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <FeatureCard
-                icon={<ShieldCheck />}
-                title="AI Fraud Shield"
-                description="Our cutting-edge Graph Neural Network analyzes every transaction in real-time to detect and prevent fraud, keeping your funds safe."
-              />
-              <FeatureCard
-                icon={<Zap />}
-                title="Blockchain Settlement"
-                description="We leverage the power of USDC on Aptos and Solana for fast, low-cost, and transparent transaction settlements 24/7."
-              />
-              <FeatureCard
-                icon={<Globe />}
-                title="Global Reach, Local Feel"
-                description="Send money with just a phone number. Your recipient is notified in their local currency, making international transfers feel effortless."
-              />
-            </div>
-          </div>
-        </motion.section>
-
-        {/* How It Works Section */}
-        <motion.section
           className="py-20 md:py-24"
           initial="hidden"
           whileInView="show"
@@ -162,51 +129,24 @@ export default function LandingPage() {
           }}
         >
           <div className="container mx-auto px-4">
-            <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="text-center mb-16">
+             <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Send Money in 4 Easy Steps
+                A Smarter, Safer Way to Send
               </h2>
               <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-                Get your money where it needs to go, quickly and securely.
+                We've built a platform that is secure, fast, and fair. Your
+                money, delivered with confidence.
               </p>
             </motion.div>
-            <div className="grid md:grid-cols-4 gap-8 text-center relative">
-              <div className="hidden md:block absolute top-1/2 left-0 w-full h-px -translate-y-12">
-                <svg width="100%" height="2">
-                  <line
-                    x1="0"
-                    y1="1"
-                    x2="100%"
-                    y1="1"
-                    strokeWidth="2"
-                    strokeDasharray="8, 8"
-                    className="stroke-border"
-                  />
-                </svg>
-              </div>
-              <HowItWorksStep
-                icon={<Banknote />}
-                title="Link Account"
-                description="Securely connect your bank account or card in seconds."
-              />
-              <HowItWorksStep
-                icon={<Send />}
-                title="Enter Details"
-                description="Tell us who you're sending to and how much."
-              />
-              <HowItWorksStep
-                icon={<ShieldHalf />}
-                title="AI Secure Check"
-                description="Our AI Fraud Shield analyzes and secures your transaction."
-              />
-              <HowItWorksStep
-                icon={<MessageSquare />}
-                title="Money Sent"
-                description="Your recipient is notified and the funds are on their way."
-              />
-            </div>
+            
+            <BentoGrid>
+                {features.map((feature, i) => (
+                    <BentoGridItem key={i} {...feature} />
+                ))}
+            </BentoGrid>
           </div>
         </motion.section>
+
 
         {/* Global Anomaly Graph Section */}
         <motion.section
@@ -227,12 +167,11 @@ export default function LandingPage() {
               <motion.p variants={FADE_UP_ANIMATION_VARIANTS} className="text-muted-foreground mt-3 max-w-3xl mx-auto">
                 This is a live, anonymized visualization of our global
                 transaction network. Our AI constantly monitors for unusual
-                patterns, automatically flagging high-risk transfers (shown in
-                yellow and red) to protect the entire ecosystem.
+                patterns, automatically flagging high-risk transfers to protect the entire ecosystem.
               </motion.p>
             </div>
             <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="relative flex justify-center items-center">
-              <div className="p-4 rounded-xl bg-gradient-to-tr from-primary/20 to-accent/20 shadow-2xl w-full">
+              <div className="p-1 sm:p-4 rounded-xl bg-gradient-to-tr from-primary/20 to-accent/20 shadow-2xl w-full">
                 <GlobalAnomalyGraph />
               </div>
             </motion.div>
@@ -265,9 +204,7 @@ export default function LandingPage() {
                 AptoSend is our commitment to changing that. By combining the
                 efficiency of blockchain with the intelligence of AI, we're
                 building a financial network that is open, fair, and accessible
-                to everyone, everywhere. Our goal is to empower individuals and
-                businesses by making cross-border payments instant, affordable,
-                and secure.
+                to everyone, everywhere.
               </motion.p>
             </div>
             <motion.div variants={FADE_UP_ANIMATION_VARIANTS}>
@@ -308,26 +245,35 @@ export default function LandingPage() {
                 say.
               </p>
             </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <TestimonialCard
-                quote="AptoSend is a game-changer. I sent money to my family overseas and they received it in minutes, not days. The low fees are just the cherry on top."
-                name="Maria S."
-                title="Freelance Designer"
-                avatarUrl="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8ZmVtYWxlJTIwfGVufDB8fHx8MTc1MTMwNDgzMXww&ixlib=rb-4.1.0&q=80&w=1080"
-              />
-              <TestimonialCard
-                quote="The security features give me peace of mind. Knowing the AI is constantly monitoring for fraud makes me feel much safer than using traditional banks."
-                name="David L."
-                title="Small Business Owner"
-                avatarUrl="https://images.unsplash.com/photo-1676195470090-7c90bf539b3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBpY29ufGVufDB8fHx8MTc1MTMwNDc4MXww&ixlib=rb-4.1.0&q=80&w=1080"
-              />
-              <TestimonialCard
-                quote="Finally, a modern way to handle international payments. The interface is clean, simple, and incredibly easy to use. Highly recommended!"
-                name="Aisha K."
-                title="E-commerce Entrepreneur"
-                avatarUrl="https://images.unsplash.com/photo-1464863979621-258859e62245?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8ZmVtYWxlfGVufDB8fHx8MTc1MTMwNDkzN3ww&ixlib=rb-4.1.0&q=80&w=1080"
-              />
-            </div>
+            <motion.div variants={FADE_UP_ANIMATION_VARIANTS}>
+                <Carousel
+                    plugins={[
+                        Autoplay({
+                          delay: 4000,
+                          stopOnInteraction: true,
+                        }),
+                    ]}
+                    opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                    className="w-full"
+                >
+                    <CarouselContent>
+                        {testimonials.map((testimonial, index) => (
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                            <div className="p-1 h-full">
+                                <TestimonialCard {...testimonial} />
+                            </div>
+                        </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <div className="hidden md:block">
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </div>
+                </Carousel>
+            </motion.div>
           </div>
         </motion.section>
 
@@ -395,57 +341,119 @@ export default function LandingPage() {
   );
 }
 
-const FeatureCard = ({
-  icon,
-  title,
-  description,
+const BentoGrid = ({
+  className,
+  children,
 }: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) => (
-  <motion.div
-    variants={{
-      hidden: { opacity: 0, y: 10 },
-      show: { opacity: 1, y: 0, transition: { type: 'spring' } },
-    }}
-    className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm hover:shadow-lg transition-shadow duration-300"
-    whileHover={{ y: -5 }}
-  >
-    <div className="p-4 bg-primary/10 rounded-full mb-4">
-      {React.cloneElement(icon as React.ReactElement, {
-        className: 'h-8 w-8 text-primary',
-      })}
-    </div>
-    <h3 className="text-xl font-semibold">{title}</h3>
-    <p className="mt-2 text-muted-foreground">{description}</p>
-  </motion.div>
-);
+  className?: string;
+  children?: React.ReactNode;
+}) => {
+  return (
+    <motion.div
+      variants={{
+        hidden: {},
+        show: { transition: { staggerChildren: 0.1 } },
+      }}
+      className={cn(
+        "grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto ",
+        className
+      )}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
-const HowItWorksStep = ({
-  icon,
+const BentoGridItem = ({
+  className,
   title,
   description,
+  header,
+  icon,
 }: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) => (
-  <motion.div
-   variants={{
-      hidden: { opacity: 0, y: 10 },
-      show: { opacity: 1, y: 0, transition: { type: 'spring' } },
-    }}
-  className="flex flex-col items-center relative z-10">
-    <div className="flex items-center justify-center h-20 w-20 rounded-full bg-background border-2 border-primary mb-4 shadow-lg">
-      {React.cloneElement(icon as React.ReactElement, {
-        className: 'h-8 w-8 text-primary',
-      })}
+  className?: string;
+  title?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+  header?: React.ReactNode;
+  icon?: React.ReactNode;
+}) => {
+   const FADE_UP_ANIMATION_VARIANTS = {
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } },
+  };
+
+  return (
+    <motion.div
+      variants={FADE_UP_ANIMATION_VARIANTS}
+      whileHover={{
+        scale: 1.02,
+        boxShadow: "0 10px 30px -10px hsl(var(--primary) / 0.2)",
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className={cn(
+        "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-card dark:border-white/[0.2] bg-card border border-transparent justify-between flex flex-col space-y-4",
+        className
+      )}
+    >
+      {header}
+      <div className="group-hover/bento:translate-x-2 transition duration-200">
+        <div className="flex items-center gap-2 mb-2">
+            {icon}
+            <div className="font-sans font-bold text-lg text-neutral-600 dark:text-neutral-200">
+                {title}
+            </div>
+        </div>
+        <div className="font-sans font-normal text-muted-foreground text-sm">
+          {description}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const SkeletonCard = ({imageHint}: {imageHint: string}) => (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-primary/20 to-accent/20">
+         <Image
+            src={`https://placehold.co/600x400.png`}
+            alt={imageHint}
+            width={600}
+            height={400}
+            className="rounded-lg shadow-lg object-cover w-full h-full"
+            data-ai-hint={imageHint}
+          />
     </div>
-    <h3 className="text-lg font-semibold">{title}</h3>
-    <p className="mt-1 text-muted-foreground text-sm">{description}</p>
-  </motion.div>
-);
+)
+
+const features = [
+  {
+    title: "AI Fraud Shield",
+    description: "Our cutting-edge Graph Neural Network analyzes every transaction in real-time to detect and prevent fraud.",
+    header: <SkeletonCard imageHint="security abstract" />,
+    className: "md:col-span-2",
+    icon: <ShieldCheck className="h-5 w-5 text-primary" />,
+  },
+  {
+    title: "Global Reach, Local Feel",
+    description: "Send money with just a phone number. Your recipient is notified in their local currency.",
+    header: <SkeletonCard imageHint="globe network" />,
+    className: "md:col-span-1",
+    icon: <Globe className="h-5 w-5 text-primary" />,
+  },
+  {
+    title: "Lightning Fast Settlement",
+    description: "Leveraging USDC on Aptos and Solana for near-instant, low-cost settlements, 24/7.",
+    header: <SkeletonCard imageHint="speed technology" />,
+    className: "md:col-span-1",
+    icon: <Zap className="h-5 w-5 text-primary" />,
+  },
+  {
+    title: "Borderless by Design",
+    description: "Built for a world without financial friction. Send, receive, and grow your money effortlessly.",
+    header: <SkeletonCard imageHint="connection abstract" />,
+    className: "md:col-span-2",
+    icon: <Rocket className="h-5 w-5 text-primary" />,
+  },
+];
 
 const TestimonialCard = ({
   quote,
@@ -458,35 +466,56 @@ const TestimonialCard = ({
   title: string;
   avatarUrl: string;
 }) => (
-  <motion.div
-   variants={{
-      hidden: { opacity: 0, y: 10 },
-      show: { opacity: 1, y: 0, transition: { type: 'spring' } },
-    }}
-  >
-    <Card className="flex flex-col justify-between h-full">
-      <CardContent className="pt-6">
-        <p className="text-foreground/90">"{quote}"</p>
-      </CardContent>
-      <CardHeader>
-        <div className="flex items-center gap-4">
-          <Image
-            src={avatarUrl}
-            alt={name}
-            width={40}
-            height={40}
-            className="rounded-full"
-            data-ai-hint="person avatar"
-          />
-          <div>
-            <p className="font-semibold">{name}</p>
-            <p className="text-sm text-muted-foreground">{title}</p>
-          </div>
+  <Card className="flex flex-col justify-between h-full bg-background/50">
+    <CardContent className="pt-6">
+      <p className="text-foreground/90">"{quote}"</p>
+    </CardContent>
+    <CardHeader>
+      <div className="flex items-center gap-4">
+        <Image
+          src={avatarUrl}
+          alt={name}
+          width={40}
+          height={40}
+          className="rounded-full"
+          data-ai-hint="person avatar"
+        />
+        <div>
+          <p className="font-semibold">{name}</p>
+          <p className="text-sm text-muted-foreground">{title}</p>
         </div>
-      </CardHeader>
-    </Card>
-  </motion.div>
+      </div>
+    </CardHeader>
+  </Card>
 );
+
+const testimonials = [
+    {
+        quote:"AptoSend is a game-changer. I sent money to my family overseas and they received it in minutes, not days. The low fees are just the cherry on top.",
+        name:"Maria S.",
+        title:"Freelance Designer",
+        avatarUrl:"https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8ZmVtYWxlJTIwfGVufDB8fHx8MTc1MTMwNDgzMXww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+        quote:"The security features give me peace of mind. Knowing the AI is constantly monitoring for fraud makes me feel much safer than using traditional banks.",
+        name:"David L.",
+        title:"Small Business Owner",
+        avatarUrl:"https://images.unsplash.com/photo-1676195470090-7c90bf539b3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBpY29ufGVufDB8fHx8MTc1MTMwNDc4MXww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+        quote:"Finally, a modern way to handle international payments. The interface is clean, simple, and incredibly easy to use. Highly recommended!",
+        name:"Aisha K.",
+        title:"E-commerce Entrepreneur",
+        avatarUrl:"https://images.unsplash.com/photo-1464863979621-258859e62245?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxN3x8ZmVtYWxlfGVufDB8fHx8MTc1MTMwNDkzN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+    },
+    {
+        quote:"The speed is incredible. I can't believe how quickly my payments settle compared to the old way. AptoSend is the future.",
+        name:"Carlos G.",
+        title:"Software Developer",
+        avatarUrl:"https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtYW58ZW58MHx8fHwxNzUyMTE2MDMwfDA&ixlib=rb-4.0.3&q=80&w=1080"
+    }
+]
+
 
 const FooterLinks = ({
   title,
