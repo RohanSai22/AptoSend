@@ -1,16 +1,18 @@
 
+import * as React from "react";
 import { Button } from "@/components/ui/button"
-import { ShieldCheck, Rocket, Globe, Zap, Network } from "lucide-react"
+import { ShieldCheck, Rocket, Globe, Zap, Network, Banknote, Send, MessageSquare, ShieldHalf, Users } from "lucide-react"
 import Link from 'next/link'
 import { WalletCards } from "lucide-react";
 import { GlobalAnomalyGraph } from "@/components/global-anomaly-graph";
 import Image from "next/image";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center">
+        <div className="container flex h-16 max-w-screen-2xl items-center">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <WalletCards className="h-7 w-7 text-primary" />
             <span className="font-bold text-xl inline-block">AptoSend</span>
@@ -29,19 +31,21 @@ export default function LandingPage() {
       </header>
 
       <main className="flex-1">
-        <section className="py-24 md:py-32 lg:py-40">
+        {/* Hero Section */}
+        <section className="relative py-28 md:py-40">
+          <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(#e0f8f8_1px,transparent_1px)] dark:bg-[radial-gradient(#102c2c_1px,transparent_1px)] [background-size:16px_16px]"></div>
           <div className="container text-center">
-            <div className="bg-primary/10 inline-block p-3 rounded-full mb-6">
+            <div className="bg-primary/10 inline-block p-3 rounded-full mb-6 animate-fade-in">
                 <Rocket className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl animate-slide-up">
               The Future of Global Remittance
             </h1>
-            <p className="mt-6 max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl">
+            <p className="mt-6 max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
               AptoSend revolutionizes how you send money across borders. Experience instant, low-cost transfers powered by blockchain and secured by our industry-leading AI Fraud Shield.
             </p>
-            <div className="mt-10 flex justify-center gap-4">
-              <Button size="lg" asChild>
+            <div className="mt-10 flex justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+              <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link href="/login">Send Money Now</Link>
               </Button>
               <Button size="lg" variant="outline">
@@ -51,41 +55,46 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="features" className="py-20 md:py-24 bg-card">
+        {/* Features Section */}
+        <section id="features" className="py-20 md:py-24 bg-card/50">
           <div className="container">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Why Choose AptoSend?</h2>
               <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">We've built a platform that is secure, fast, and fair. Your money, delivered with confidence.</p>
             </div>
-            <div className="grid gap-10 md:grid-cols-3">
-              <div className="flex flex-col items-center text-center">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <ShieldCheck className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">AI Fraud Shield</h3>
-                <p className="mt-2 text-muted-foreground">Our cutting-edge Graph Neural Network analyzes every transaction in real-time to detect and prevent fraud, keeping your funds safe.</p>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <Zap className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Blockchain Settlement</h3>
-                <p className="mt-2 text-muted-foreground">We leverage the power of USDC on Aptos and Solana for fast, low-cost, and transparent transaction settlements 24/7.</p>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                <div className="p-4 bg-primary/10 rounded-full mb-4">
-                  <Globe className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">Global Reach, Local Feel</h3>
-                <p className="mt-2 text-muted-foreground">Send money with just a phone number. Your recipient is notified in their local currency, making international transfers feel effortless.</p>
-              </div>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <FeatureCard icon={<ShieldCheck />} title="AI Fraud Shield" description="Our cutting-edge Graph Neural Network analyzes every transaction in real-time to detect and prevent fraud, keeping your funds safe." />
+              <FeatureCard icon={<Zap />} title="Blockchain Settlement" description="We leverage the power of USDC on Aptos and Solana for fast, low-cost, and transparent transaction settlements 24/7." />
+              <FeatureCard icon={<Globe />} title="Global Reach, Local Feel" description="Send money with just a phone number. Your recipient is notified in their local currency, making international transfers feel effortless." />
             </div>
           </div>
         </section>
 
+        {/* How It Works Section */}
         <section className="py-20 md:py-24">
             <div className="container">
                 <div className="text-center mb-16">
+                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Send Money in 4 Easy Steps</h2>
+                    <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">Get your money where it needs to go, quickly and securely.</p>
+                </div>
+                <div className="grid md:grid-cols-4 gap-8 text-center relative">
+                    {/* Dashed line connector for desktop */}
+                    <div className="hidden md:block absolute top-1/2 left-0 w-full h-px -translate-y-12">
+                        <svg width="100%" height="2"><line x1="0" y1="1" x2="100%" y1="1" strokeWidth="2" strokeDasharray="8, 8" className="stroke-border"/></svg>
+                    </div>
+                    <HowItWorksStep icon={<Banknote/>} title="Link Account" description="Securely connect your bank account or card in seconds." />
+                    <HowItWorksStep icon={<Send/>} title="Enter Details" description="Tell us who you're sending to and how much." />
+                    <HowItWorksStep icon={<ShieldHalf/>} title="AI Secure Check" description="Our AI Fraud Shield analyzes and secures your transaction." />
+                    <HowItWorksStep icon={<MessageSquare/>} title="Money Sent" description="Your recipient is notified and the funds are on their way." />
+                </div>
+            </div>
+        </section>
+
+
+        {/* Global Anomaly Graph Section */}
+        <section className="py-20 md:py-24 bg-card/50">
+            <div className="container">
+                <div className="text-center mb-12">
                     <div className="bg-primary/10 inline-block p-3 rounded-full mb-4">
                         <Network className="h-8 w-8 text-primary" />
                     </div>
@@ -94,13 +103,16 @@ export default function LandingPage() {
                         This is a live, anonymized visualization of our global transaction network. Our AI constantly monitors for unusual patterns, automatically flagging high-risk transfers (shown in yellow and red) to protect the entire ecosystem.
                     </p>
                 </div>
-                <div className="relative flex justify-center items-center -mt-8">
-                   <GlobalAnomalyGraph />
+                <div className="relative flex justify-center items-center">
+                   <div className="p-4 rounded-xl bg-gradient-to-tr from-primary/20 to-accent/20 shadow-2xl">
+                     <GlobalAnomalyGraph />
+                   </div>
                 </div>
             </div>
         </section>
         
-        <section id="mission" className="py-20 md:py-24 bg-card">
+        {/* Mission Section */}
+        <section id="mission" className="py-20 md:py-24">
           <div className="container grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Vision for a Borderless Economy</h2>
@@ -123,19 +135,124 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        {/* Testimonials Section */}
+        <section id="testimonials" className="py-20 md:py-24 bg-card/50">
+            <div className="container">
+                <div className="text-center mb-16">
+                    <div className="bg-accent/10 inline-block p-3 rounded-full mb-4">
+                        <Users className="h-8 w-8 text-accent" />
+                    </div>
+                    <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Trusted by Users Worldwide</h2>
+                    <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">Don't just take our word for it. Here's what our users have to say.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <TestimonialCard
+                        quote="AptoSend is a game-changer. I sent money to my family overseas and they received it in minutes, not days. The low fees are just the cherry on top."
+                        name="Maria S."
+                        title="Freelance Designer"
+                        avatarUrl="https://placehold.co/40x40.png"
+                    />
+                    <TestimonialCard
+                        quote="The security features give me peace of mind. Knowing the AI is constantly monitoring for fraud makes me feel much safer than using traditional banks."
+                        name="David L."
+                        title="Small Business Owner"
+                        avatarUrl="https://placehold.co/40x40.png"
+                    />
+                    <TestimonialCard
+                        quote="Finally, a modern way to handle international payments. The interface is clean, simple, and incredibly easy to use. Highly recommended!"
+                        name="Aisha K."
+                        title="E-commerce Entrepreneur"
+                        avatarUrl="https://placehold.co/40x40.png"
+                    />
+                </div>
+            </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-20 md:py-24">
+            <div className="container text-center">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Join the Revolution?</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">Create an account in minutes and experience the future of money transfers today.</p>
+                <div className="mt-8">
+                    <Button size="lg" asChild className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-10 py-6">
+                        <Link href="/login">Sign Up for Free</Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
       </main>
 
-      <footer className="py-8 md:py-12 border-t">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="flex items-center gap-2">
-            <WalletCards className="h-6 w-6 text-primary" />
-            <span className="font-bold">AptoSend</span>
-          </div>
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            © {new Date().getFullYear()} AptoSend Inc. All rights reserved.
-          </p>
+      {/* Footer */}
+      <footer className="py-12 border-t bg-card/50">
+        <div className="container max-w-screen-2xl grid grid-cols-2 md:grid-cols-5 gap-8">
+            <div className="col-span-2 md:col-span-1">
+                <div className="flex items-center gap-2">
+                    <WalletCards className="h-7 w-7 text-primary" />
+                    <span className="font-bold text-lg">AptoSend</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                    © {new Date().getFullYear()} AptoSend Inc. <br/> All rights reserved.
+                </p>
+            </div>
+            <FooterLinks title="Product" links={['Features', 'Security', 'Pricing', 'API']} />
+            <FooterLinks title="Company" links={['About Us', 'Careers', 'Blog', 'Press']} />
+            <FooterLinks title="Support" links={['Help Center', 'Contact Us', 'Status']} />
+            <FooterLinks title="Legal" links={['Terms of Service', 'Privacy Policy']} />
         </div>
       </footer>
     </div>
   )
 }
+
+const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
+  <div className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
+    <div className="p-4 bg-primary/10 rounded-full mb-4">
+      {React.cloneElement(icon as React.ReactElement, { className: "h-8 w-8 text-primary" })}
+    </div>
+    <h3 className="text-xl font-semibold">{title}</h3>
+    <p className="mt-2 text-muted-foreground">{description}</p>
+  </div>
+);
+
+const HowItWorksStep = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
+    <div className="flex flex-col items-center relative z-10">
+        <div className="flex items-center justify-center h-20 w-20 rounded-full bg-background border-2 border-primary mb-4 shadow-lg">
+            {React.cloneElement(icon as React.ReactElement, { className: "h-8 w-8 text-primary" })}
+        </div>
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <p className="mt-1 text-muted-foreground text-sm">{description}</p>
+    </div>
+);
+
+const TestimonialCard = ({ quote, name, title, avatarUrl }: { quote: string, name: string, title: string, avatarUrl: string }) => (
+    <Card className="flex flex-col justify-between">
+        <CardContent className="pt-6">
+            <p className="text-foreground/90">"{quote}"</p>
+        </CardContent>
+        <CardHeader>
+            <div className="flex items-center gap-4">
+                <Image src={avatarUrl} alt={name} width={40} height={40} className="rounded-full" data-ai-hint="person avatar"/>
+                <div>
+                    <p className="font-semibold">{name}</p>
+                    <p className="text-sm text-muted-foreground">{title}</p>
+                </div>
+            </div>
+        </CardHeader>
+    </Card>
+);
+
+const FooterLinks = ({ title, links }: { title: string, links: string[] }) => (
+    <div>
+        <h4 className="font-semibold mb-4">{title}</h4>
+        <ul className="space-y-3">
+            {links.map(link => (
+                <li key={link}>
+                    <a href="#" className="text-muted-foreground hover:text-primary transition-colors text-sm">{link}</a>
+                </li>
+            ))}
+        </ul>
+    </div>
+)
+
+    
