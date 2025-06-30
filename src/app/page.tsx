@@ -411,10 +411,10 @@ const BentoGridItem = ({
   );
 };
 
-const SkeletonCard = ({imageHint}: {imageHint: string}) => (
+const SkeletonCard = ({imageHint, src}: {imageHint: string, src: string}) => (
     <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-primary/20 to-accent/20">
          <Image
-            src={`https://placehold.co/600x400.png`}
+            src={src}
             alt={imageHint}
             width={600}
             height={400}
@@ -428,28 +428,28 @@ const features = [
   {
     title: "AI Fraud Shield",
     description: "Our cutting-edge Graph Neural Network analyzes every transaction in real-time to detect and prevent fraud.",
-    header: <SkeletonCard imageHint="security abstract" />,
+    header: <SkeletonCard imageHint="security abstract" src="https://images.unsplash.com/photo-1648195699350-fa0ed4a263e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhaSUyMGZyYXVkfGVufDB8fHx8MTc1MTMwNjk2Nnww&ixlib=rb-4.1.0&q=80&w=1080" />,
     className: "md:col-span-2",
     icon: <ShieldCheck className="h-5 w-5 text-primary" />,
   },
   {
     title: "Global Reach, Local Feel",
     description: "Send money with just a phone number. Your recipient is notified in their local currency.",
-    header: <SkeletonCard imageHint="globe network" />,
+    header: <SkeletonCard imageHint="globe network" src="https://images.unsplash.com/photo-1584931423298-c576fda54bd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxnbG9iYWx8ZW58MHx8fHwxNzUxMzA3MDA3fDA&ixlib=rb-4.1.0&q=80&w=1080" />,
     className: "md:col-span-1",
     icon: <Globe className="h-5 w-5 text-primary" />,
   },
   {
     title: "Lightning Fast Settlement",
     description: "Leveraging USDC on Aptos and Solana for near-instant, low-cost settlements, 24/7.",
-    header: <SkeletonCard imageHint="speed technology" />,
+    header: <SkeletonCard imageHint="speed technology" src="https://images.unsplash.com/photo-1598566665290-e59c95256dc3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxmYXN0fGVufDB8fHx8MTc1MTMwNzA5MHww&ixlib=rb-4.1.0&q=80&w=1080" />,
     className: "md:col-span-1",
     icon: <Zap className="h-5 w-5 text-primary" />,
   },
   {
     title: "Borderless by Design",
     description: "Built for a world without financial friction. Send, receive, and grow your money effortlessly.",
-    header: <SkeletonCard imageHint="connection abstract" />,
+    header: <SkeletonCard imageHint="connection abstract" src="https://images.unsplash.com/photo-1744731217845-7726c4f5b8bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxNHx8c2VhbWxlc3MlMjBpbnRlZ3JhdGlvbnxlbnwwfHx8fDE3NTEzMDcwNTd8MA&ixlib=rb-4.1.0&q=80&w=1080" />,
     className: "md:col-span-2",
     icon: <Rocket className="h-5 w-5 text-primary" />,
   },
