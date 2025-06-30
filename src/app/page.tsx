@@ -171,9 +171,7 @@ export default function LandingPage() {
               </motion.p>
             </div>
             <motion.div variants={FADE_UP_ANIMATION_VARIANTS} className="relative flex justify-center items-center">
-              <div className="p-1 sm:p-4 rounded-xl bg-gradient-to-tr from-primary/20 to-accent/20 shadow-2xl w-full">
-                <GlobalAnomalyGraph />
-              </div>
+              <GlobalAnomalyGraph />
             </motion.div>
           </div>
         </motion.section>
@@ -422,7 +420,7 @@ const SkeletonCard = ({imageHint, src}: {imageHint: string, src: string}) => (
             data-ai-hint={imageHint}
           />
     </div>
-)
+);
 
 const features = [
   {
