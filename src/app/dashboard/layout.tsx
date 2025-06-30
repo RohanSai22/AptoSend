@@ -22,7 +22,7 @@ export default function DashboardLayout({
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <Avatar>
-                  <AvatarImage src="https://placehold.co/40x40.png" alt="User" data-ai-hint="person avatar" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1676195470090-7c90bf539b3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBpY29ufGVufDB8fHx8MTc1MTMwNDc4MXww&ixlib=rb-4.1.0&q=80&w=1080" alt="User" data-ai-hint="person avatar" />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
                 <span className="sr-only">Toggle user menu</span>

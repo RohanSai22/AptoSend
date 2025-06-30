@@ -173,7 +173,7 @@ export default function LandingPage() {
             </div>
             <div>
               <Image 
-                src="https://placehold.co/600x400.png" 
+                src="https://images.unsplash.com/photo-1571867424488-4565932edb41?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMnx8cGF5bWVudHxlbnwwfHx8fDE3NTEzMDQ3MzB8MA&ixlib=rb-4.1.0&q=80&w=1080" 
                 alt="Global connection" 
                 width={600} 
                 height={400} 
@@ -206,19 +206,19 @@ export default function LandingPage() {
                         quote="AptoSend is a game-changer. I sent money to my family overseas and they received it in minutes, not days. The low fees are just the cherry on top."
                         name="Maria S."
                         title="Freelance Designer"
-                        avatarUrl="https://placehold.co/40x40.png"
+                        avatarUrl="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8ZmVtYWxlJTIwfGVufDB8fHx8MTc1MTMwNDgzMXww&ixlib=rb-4.1.0&q=80&w=1080"
                     />
                     <TestimonialCard
                         quote="The security features give me peace of mind. Knowing the AI is constantly monitoring for fraud makes me feel much safer than using traditional banks."
                         name="David L."
                         title="Small Business Owner"
-                        avatarUrl="https://placehold.co/40x40.png"
+                        avatarUrl="https://images.unsplash.com/photo-1676195470090-7c90bf539b3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYW4lMjBpY29ufGVufDB8fHx8MTc1MTMwNDc4MXww&ixlib=rb-4.1.0&q=80&w=1080"
                     />
                     <TestimonialCard
                         quote="Finally, a modern way to handle international payments. The interface is clean, simple, and incredibly easy to use. Highly recommended!"
                         name="Aisha K."
                         title="E-commerce Entrepreneur"
-                        avatarUrl="https://placehold.co/40x40.png"
+                        avatarUrl="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyMHx8ZmVtYWxlJTIwfGVufDB8fHx8MTc1MTMwNDgzMXww&ixlib=rb-4.1.0&q=80&w=1080"
                     />
                 </div>
             </div>
