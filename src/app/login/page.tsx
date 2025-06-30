@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { WalletCards } from "lucide-react"
 import Link from 'next/link'
 import { useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,7 +22,12 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
-      <div className="w-full max-w-md mx-auto p-4">
+      <motion.div
+        className="w-full max-w-md mx-auto p-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <Link href="/" className="flex items-center justify-center gap-2 mb-8 text-lg font-semibold md:text-2xl">
           <WalletCards className="h-7 w-7 text-primary" />
           <span className="font-headline">AptoSend</span>
@@ -49,7 +55,7 @@ export default function LoginPage() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
+                  <span className="bg-card px-2 text-muted-foreground">
                     Or continue with
                   </span>
                 </div>
@@ -61,7 +67,7 @@ export default function LoginPage() {
             </form>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
     </div>
   )
 }

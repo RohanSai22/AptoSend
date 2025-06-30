@@ -134,7 +134,7 @@ export function SendMoneyForm({ onTransactionComplete }: SendMoneyFormProps) {
               </Card>
             </CardContent>
             <CardFooter>
-              <Button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90">
+              <Button type="submit" disabled={isLoading} className="w-full bg-primary hover:bg-primary/90 active:scale-98 transition-transform duration-100">
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : (

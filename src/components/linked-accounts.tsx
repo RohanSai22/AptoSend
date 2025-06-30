@@ -16,7 +16,7 @@ export function LinkedAccounts() {
       </CardHeader>
       <CardContent className="space-y-4">
         {accounts.map(account => (
-          <div key={account.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+          <div key={account.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg transition-colors hover:bg-muted/80">
             <div className="flex items-center gap-4">
               {account.icon}
               <div>

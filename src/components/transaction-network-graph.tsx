@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "./transaction-history";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 interface TransactionNetworkGraphProps {
   transactions: Transaction[];
@@ -91,59 +93,67 @@ export function TransactionNetworkGraph({ transactions }: TransactionNetworkGrap
     <Card>
       <CardHeader>
         <CardTitle>Transaction Network</CardTitle>
-        <CardDescription>Visual representation of your transactions. Hover over a node to see connections.</CardDescription>
+        <CardDescription>Visual representation of your transactions. Hover over a node to see details.</CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-center">
-        <svg width="500" height="320" viewBox="0 0 500 320">
-          <g>
-            {links.map((link) => (
-              <line
-                key={link.id}
-                x1={link.source.x}
-                y1={link.source.y}
-                x2={link.target.x}
-                y2={link.target.y}
-                className={cn(
-                    "transition-all",
-                    getLinkColor(link.riskScore),
-                    (hoveredNode === link.source.id || hoveredNode === link.target.id) && "stroke-primary/80 !stroke-2"
-                )}
-              />
-            ))}
-          </g>
-          <g>
-            {nodes.map((node) => (
-              <g 
-                key={node.id} 
-                transform={`translate(${node.x},${node.y})`}
-                onMouseEnter={() => setHoveredNode(node.id)}
-                onMouseLeave={() => setHoveredNode(null)}
-                className="cursor-pointer group"
-              >
-                <circle
-                  r={node.isCenter ? 20 : 15}
+        <TooltipProvider>
+          <svg width="500" height="320" viewBox="0 0 500 320">
+            <g>
+              {links.map((link) => (
+                <line
+                  key={link.id}
+                  x1={link.source.x}
+                  y1={link.source.y}
+                  x2={link.target.x}
+                  y2={link.target.y}
                   className={cn(
-                    "transition-all stroke-2",
-                    node.isCenter ? "fill-primary" : "fill-card",
-                    (hoveredNode === node.id || links.some(l => (l.source.id === node.id && l.target.id === hoveredNode) || (l.target.id === node.id && l.source.id === hoveredNode))) ? "stroke-accent" : "stroke-border",
-                    (hoveredNode === node.id) && "stroke-[3px]",
+                      "transition-all stroke-2",
+                      getLinkColor(link.riskScore),
+                      (hoveredNode === link.source.id || hoveredNode === link.target.id) && "stroke-primary/80 !stroke-[3px]"
                   )}
                 />
-                <text
-                  textAnchor="middle"
-                  dy={node.isCenter ? "0.35em" : "0.35em"}
-                  className={cn(
-                      "transition-all text-xs select-none",
-                      node.isCenter ? "fill-primary-foreground" : "fill-card-foreground",
-                      "group-hover:font-bold"
-                  )}
-                >
-                  {node.id.length > 10 ? node.id.substring(0, 7) + '...' : node.id}
-                </text>
-              </g>
-            ))}
-          </g>
-        </svg>
+              ))}
+            </g>
+            <g>
+              {nodes.map((node) => (
+                <Tooltip key={node.id} delayDuration={100}>
+                  <TooltipTrigger asChild>
+                    <g 
+                      transform={`translate(${node.x},${node.y})`}
+                      onMouseEnter={() => setHoveredNode(node.id)}
+                      onMouseLeave={() => setHoveredNode(null)}
+                      className="cursor-pointer group"
+                    >
+                      <circle
+                        r={node.isCenter ? 20 : 15}
+                        className={cn(
+                          "transition-all stroke-2",
+                          node.isCenter ? "fill-primary" : "fill-card",
+                          (hoveredNode === node.id || links.some(l => (l.source.id === node.id && l.target.id === hoveredNode) || (l.target.id === node.id && l.source.id === hoveredNode))) ? "stroke-accent" : "stroke-border",
+                          (hoveredNode === node.id) && "stroke-[3px]",
+                        )}
+                      />
+                      <text
+                        textAnchor="middle"
+                        dy={node.isCenter ? "0.35em" : "0.35em"}
+                        className={cn(
+                            "transition-all text-xs select-none pointer-events-none",
+                            node.isCenter ? "fill-primary-foreground" : "fill-card-foreground",
+                            "group-hover:font-bold"
+                        )}
+                      >
+                        {node.id.length > 10 ? node.id.substring(0, 7) + '...' : node.id}
+                      </text>
+                    </g>
+                  </TooltipTrigger>
+                   <TooltipContent>
+                    <p>{node.id}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </g>
+          </svg>
+        </TooltipProvider>
       </CardContent>
     </Card>
   );
