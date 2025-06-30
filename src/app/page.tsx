@@ -1,5 +1,8 @@
 
+'use client';
+
 import * as React from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"
 import { ShieldCheck, Rocket, Globe, Zap, Network, Banknote, Send, MessageSquare, ShieldHalf, Users } from "lucide-react"
 import Link from 'next/link'
@@ -9,10 +12,15 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function LandingPage() {
+  const FADE_IN_ANIMATION_VARIANTS = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="flex flex-col min-h-dvh bg-background text-foreground">
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 max-w-screen-2xl items-center">
+        <div className="container flex h-16 max-w-screen-2xl items-center mx-auto px-4">
           <Link href="/" className="mr-6 flex items-center space-x-2">
             <WalletCards className="h-7 w-7 text-primary" />
             <span className="font-bold text-xl inline-block">AptoSend</span>
@@ -34,30 +42,53 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative py-28 md:py-40">
           <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(#e0f8f8_1px,transparent_1px)] dark:bg-[radial-gradient(#102c2c_1px,transparent_1px)] [background-size:16px_16px]"></div>
-          <div className="container text-center">
-            <div className="bg-primary/10 inline-block p-3 rounded-full mb-6 animate-fade-in">
+          <div className="container text-center mx-auto px-4">
+            <motion.div
+              initial="initial"
+              animate="animate"
+              transition={{ staggerChildren: 0.1 }}
+              className="bg-primary/10 inline-block p-3 rounded-full mb-6"
+            >
+              <motion.div variants={FADE_IN_ANIMATION_VARIANTS}>
                 <Rocket className="h-8 w-8 text-primary" />
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl animate-slide-up">
+              </motion.div>
+            </motion.div>
+            <motion.h1 
+              className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl"
+              variants={FADE_IN_ANIMATION_VARIANTS}
+            >
               The Future of Global Remittance
-            </h1>
-            <p className="mt-6 max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            </motion.h1>
+            <motion.p 
+              className="mt-6 max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl"
+              variants={FADE_IN_ANIMATION_VARIANTS}
+            >
               AptoSend revolutionizes how you send money across borders. Experience instant, low-cost transfers powered by blockchain and secured by our industry-leading AI Fraud Shield.
-            </p>
-            <div className="mt-10 flex justify-center gap-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            </motion.p>
+            <motion.div 
+              className="mt-10 flex justify-center gap-4"
+              variants={FADE_IN_ANIMATION_VARIANTS}
+            >
               <Button size="lg" asChild className="bg-accent text-accent-foreground hover:bg-accent/90">
                 <Link href="/login">Send Money Now</Link>
               </Button>
               <Button size="lg" variant="outline">
                 Learn More
               </Button>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* Features Section */}
-        <section id="features" className="py-20 md:py-24 bg-card/50">
-          <div className="container">
+        <motion.section 
+          id="features" 
+          className="py-20 md:py-24 bg-card/50"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Why Choose AptoSend?</h2>
               <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">We've built a platform that is secure, fast, and fair. Your money, delivered with confidence.</p>
@@ -68,17 +99,22 @@ export default function LandingPage() {
               <FeatureCard icon={<Globe />} title="Global Reach, Local Feel" description="Send money with just a phone number. Your recipient is notified in their local currency, making international transfers feel effortless." />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* How It Works Section */}
-        <section className="py-20 md:py-24">
-            <div className="container">
+        <motion.section 
+          className="py-20 md:py-24"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+            <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Send Money in 4 Easy Steps</h2>
                     <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">Get your money where it needs to go, quickly and securely.</p>
                 </div>
                 <div className="grid md:grid-cols-4 gap-8 text-center relative">
-                    {/* Dashed line connector for desktop */}
                     <div className="hidden md:block absolute top-1/2 left-0 w-full h-px -translate-y-12">
                         <svg width="100%" height="2"><line x1="0" y1="1" x2="100%" y1="1" strokeWidth="2" strokeDasharray="8, 8" className="stroke-border"/></svg>
                     </div>
@@ -88,12 +124,17 @@ export default function LandingPage() {
                     <HowItWorksStep icon={<MessageSquare/>} title="Money Sent" description="Your recipient is notified and the funds are on their way." />
                 </div>
             </div>
-        </section>
-
+        </motion.section>
 
         {/* Global Anomaly Graph Section */}
-        <section className="py-20 md:py-24 bg-card/50">
-            <div className="container">
+        <motion.section 
+          className="py-20 md:py-24 bg-card/50"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+            <div className="container mx-auto px-4">
                 <div className="text-center mb-12">
                     <div className="bg-primary/10 inline-block p-3 rounded-full mb-4">
                         <Network className="h-8 w-8 text-primary" />
@@ -109,11 +150,18 @@ export default function LandingPage() {
                    </div>
                 </div>
             </div>
-        </section>
+        </motion.section>
         
         {/* Mission Section */}
-        <section id="mission" className="py-20 md:py-24">
-          <div className="container grid md:grid-cols-2 gap-12 items-center">
+        <motion.section 
+          id="mission" 
+          className="py-20 md:py-24"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="container grid md:grid-cols-2 gap-12 items-center mx-auto px-4">
             <div className="space-y-4">
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Vision for a Borderless Economy</h2>
               <p className="text-muted-foreground text-lg">
@@ -130,15 +178,22 @@ export default function LandingPage() {
                 width={600} 
                 height={400} 
                 className="rounded-lg shadow-lg"
-                data-ai-hint="global network"
+                data-ai-hint="global finance technology"
               />
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Testimonials Section */}
-        <section id="testimonials" className="py-20 md:py-24 bg-card/50">
-            <div className="container">
+        <motion.section 
+          id="testimonials" 
+          className="py-20 md:py-24 bg-card/50"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+            <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
                     <div className="bg-accent/10 inline-block p-3 rounded-full mb-4">
                         <Users className="h-8 w-8 text-accent" />
@@ -167,11 +222,17 @@ export default function LandingPage() {
                     />
                 </div>
             </div>
-        </section>
+        </motion.section>
 
         {/* Final CTA */}
-        <section className="py-20 md:py-24">
-            <div className="container text-center">
+        <motion.section 
+          className="py-20 md:py-24"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+            <div className="container text-center mx-auto px-4">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Join the Revolution?</h2>
                 <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">Create an account in minutes and experience the future of money transfers today.</p>
                 <div className="mt-8">
@@ -180,12 +241,12 @@ export default function LandingPage() {
                     </Button>
                 </div>
             </div>
-        </section>
+        </motion.section>
       </main>
 
       {/* Footer */}
       <footer className="py-12 border-t bg-card/50">
-        <div className="container max-w-screen-2xl grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="container max-w-screen-2xl grid grid-cols-2 md:grid-cols-5 gap-8 mx-auto px-4">
             <div className="col-span-2 md:col-span-1">
                 <div className="flex items-center gap-2">
                     <WalletCards className="h-7 w-7 text-primary" />
@@ -206,13 +267,16 @@ export default function LandingPage() {
 }
 
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-  <div className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm hover:shadow-lg transition-shadow duration-300">
+  <motion.div 
+    className="flex flex-col items-center text-center p-6 rounded-lg bg-card shadow-sm hover:shadow-lg transition-shadow duration-300"
+    whileHover={{ y: -5 }}
+  >
     <div className="p-4 bg-primary/10 rounded-full mb-4">
       {React.cloneElement(icon as React.ReactElement, { className: "h-8 w-8 text-primary" })}
     </div>
     <h3 className="text-xl font-semibold">{title}</h3>
     <p className="mt-2 text-muted-foreground">{description}</p>
-  </div>
+  </motion.div>
 );
 
 const HowItWorksStep = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
@@ -254,5 +318,3 @@ const FooterLinks = ({ title, links }: { title: string, links: string[] }) => (
         </ul>
     </div>
 )
-
-    
