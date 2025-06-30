@@ -32,30 +32,30 @@ export function GlobalAnomalyGraph() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
   
-  const width = 800;
-  const height = 450;
+  const width = 1200;
+  const height = 600;
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     const hubDetails = [
-      { id: 'North America Hub', x: width * 0.2, y: height * 0.3, radius: 150 },
-      { id: 'Europe Hub', x: width * 0.45, y: height * 0.25, radius: 130 },
-      { id: 'Asia Hub', x: width * 0.75, y: height * 0.4, radius: 160 },
-      { id: 'South America Hub', x: width * 0.3, y: height * 0.8, radius: 120 },
-      { id: 'Africa Hub', x: width * 0.55, y: height * 0.7, radius: 140 },
+      { id: 'North America Hub', x: width * 0.2, y: height * 0.4, radius: 180 },
+      { id: 'Europe Hub', x: width * 0.45, y: height * 0.3, radius: 160 },
+      { id: 'Asia Hub', x: width * 0.8, y: height * 0.5, radius: 200 },
+      { id: 'South America Hub', x: width * 0.25, y: height * 0.75, radius: 150 },
+      { id: 'Africa Hub', x: width * 0.55, y: height * 0.65, radius: 170 },
     ];
 
     const generatedNodes: Node[] = hubDetails.map(h => ({ id: h.id, type: 'hub', x: h.x, y: h.y }));
 
-    const regions = ['USA', 'Canada', 'Mexico', 'UK', 'Germany', 'France', 'India', 'China', 'Japan', 'Brazil', 'Argentina', 'Nigeria', 'South Africa', 'Kenya', 'Australia', 'Russia', 'Indonesia', 'Pakistan'];
+    const regions = ['USA', 'Canada', 'Mexico', 'UK', 'Germany', 'France', 'India', 'China', 'Japan', 'Brazil', 'Argentina', 'Nigeria', 'South Africa', 'Kenya', 'Australia', 'Russia', 'Indonesia', 'Pakistan', 'Egypt', 'Vietnam', 'Turkey', 'Iran', 'Thailand', 'Spain', 'Colombia'];
     regions.forEach(r => {
         const hub = hubDetails[Math.floor(Math.random() * hubDetails.length)];
         generatedNodes.push({ id: r, type: 'region', ...generateClusterCoordinates(width, height, hub.x, hub.y, hub.radius) });
     });
 
     const generatedLinks: Link[] = [];
-    for (let i = 0; i < 70; i++) { // More links
+    for (let i = 0; i < 150; i++) { // More links
         let sourceNode = generatedNodes[Math.floor(Math.random() * generatedNodes.length)];
         let targetNode = generatedNodes[Math.floor(Math.random() * generatedNodes.length)];
 
@@ -99,7 +99,7 @@ export function GlobalAnomalyGraph() {
   const getNodeById = (id: string) => nodes.find(n => n.id === id);
 
   return (
-    <div className="w-full max-w-5xl rounded-xl border bg-background/50 p-2 shadow-inner bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08),transparent_70%)]">
+    <div className="w-full max-w-7xl rounded-xl border bg-background/50 p-2 shadow-inner bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.08),transparent_70%)]">
         <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
           <g>
             {links.map((link) => {
