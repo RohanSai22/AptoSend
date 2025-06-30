@@ -178,7 +178,7 @@ export default function LandingPage() {
                 width={600} 
                 height={400} 
                 className="rounded-lg shadow-lg"
-                data-ai-hint="global finance technology"
+                data-ai-hint="global connection"
               />
             </div>
           </div>
